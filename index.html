@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#a8481f">
+<meta name="theme-color" content="#6d2d12">
 <meta name="robots" content="noindex,nofollow">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -16,11 +16,13 @@
 :root{
   --bg:#f7f1e6; --surface:#fffaf0; --ink:#2b2118; --muted:#6b5d4d; --accent:#a8481f; --accent2:#1f5a73;
   --border:#e3d6c0; --chip:#efe3cd; --tipbg:#fbf0d6; --shadow:0 1px 3px rgba(60,40,10,.12);
+  --hdr-bg:#6d2d12; --hdr-fg:#fff; --on-acc:#fff;
   --fs:17px;
 }
 :root[data-theme="dark"]{
   --bg:#14110d; --surface:#1f1a14; --ink:#f1e8d8; --muted:#b3a48f; --accent:#e8946a; --accent2:#7cbad4;
   --border:#3a3025; --chip:#2c241b; --tipbg:#2a2415; --shadow:none;
+  --hdr-bg:#2a1d14; --hdr-fg:#f6ebd9; --on-acc:#1a0f08;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{font-size:var(--fs);-webkit-text-size-adjust:100%}
@@ -28,12 +30,12 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple
   padding-bottom:calc(64px + env(safe-area-inset-bottom))}
 h1,h2,h3{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;line-height:1.2;margin:0}
 a{color:var(--accent2)}
-header.top{position:sticky;top:0;z-index:20;background:var(--accent);color:#fff;display:flex;align-items:center;gap:8px;
+header.top{position:sticky;top:0;z-index:20;background:var(--hdr-bg);color:var(--hdr-fg);border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px;
   padding:calc(8px + env(safe-area-inset-top)) 12px 8px}
 header.top .t{flex:1;min-width:0}
-header.top .t b{display:block;font-family:Georgia,serif;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-header.top .t span{font-size:.72rem;opacity:.9}
-header.top button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:10px;min-width:44px;min-height:44px;font-size:.95rem;font-weight:600}
+header.top .t b{display:block;font-family:Georgia,serif;font-size:1.15rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header.top .t span{font-size:.82rem;opacity:1}
+header.top button{background:rgba(255,255,255,.16);color:var(--hdr-fg);border:0;border-radius:10px;min-width:44px;min-height:44px;font-size:.95rem;font-weight:600}
 header.top .back{display:none}
 main{max-width:720px;margin:0 auto;padding:12px}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:var(--surface);border-top:1px solid var(--border);
@@ -54,15 +56,15 @@ a.day{display:flex;gap:12px;text-decoration:none;color:inherit;padding:12px;alig
 a.day .dt{flex:0 0 58px;background:var(--chip);border-radius:10px;text-align:center;padding:6px 2px;display:flex;flex-direction:column;justify-content:center}
 a.day .dt b{font-family:Georgia,serif;font-size:1.5rem;line-height:1}
 a.day .dt span{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-a.day.now .dt{background:var(--accent);color:#fff}
-a.day.now .dt span{color:#fff}
+a.day.now .dt{background:var(--accent);color:var(--on-acc)}
+a.day.now .dt span{color:var(--on-acc)}
 a.day .tx{flex:1;min-width:0}
 a.day .tx h3{font-size:1.05rem}
 a.day .tx p{margin:3px 0 0;font-size:.85rem;color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 a.chip,span.chip{display:inline-block;background:var(--chip);color:var(--ink);border-radius:999px;padding:6px 11px;font-size:.78rem;text-decoration:none;min-height:30px}
 a.chip{border:1px solid var(--border)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--accent);color:#fff;border:0;border-radius:12px;padding:12px 16px;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--accent);color:var(--on-acc);border:0;border-radius:12px;padding:12px 16px;
   min-height:46px;font-size:.95rem;font-weight:600;text-decoration:none}
 .btn.alt{background:var(--chip);color:var(--ink);border:1px solid var(--border)}
 .row{display:flex;gap:8px;flex-wrap:wrap}
