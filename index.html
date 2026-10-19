@@ -129,7 +129,7 @@ footer.f{text-align:center;font-size:.75rem;color:var(--muted);padding:6px 12px 
 <body>
 <header class="top">
   <button class="back" id="back" aria-label="Back">‹</button>
-  <div class="t"><b id="ttl">Egypt Trip Guide</b><span id="sub">22–29 October 2026 · works offline</span></div>
+  <div class="t"><b id="ttl">Egypt Trip Guide</b><span id="sub">21–29 October 2026 · works offline</span></div>
   <button id="fs" aria-label="Text size">A+</button>
   <button id="th" aria-label="Dark or light mode">◐</button>
 </header>
@@ -287,6 +287,9 @@ khan:{name:"Khan el-Khalili",short:"Cairo · the old bazaar",img:"khan",
 };
 
 const DAYS = [
+{id:"2026-10-21",dow:"Wed",d:21,title:"Fly Luton to Cairo",sum:"Early easyJet flight to Sphinx airport, then settle in.",grp:"Getting there",
+ items:[{t:"07:25",x:"easyJet flight from London Luton (LTN) to Sphinx International Airport (SPX), near Giza. This is not Cairo International, so make sure any transfer meets you at Sphinx."},{t:"On arrival",x:"Cairo is 2 hours ahead of the UK on this date. Collect your bags, get through immigration and head to your hotel for the night."}],
+ note:"Flight number, terminal and arrival time: add from your booking. Confirm with your hosts or the tour company where you are staying tonight and who is meeting you."},
 {id:"2026-10-22",dow:"Thu",d:22,title:"Grand Egyptian Museum",sum:"A day at the world’s newest great museum, beside the Pyramids.",grp:"Cairo",
  items:[{t:"All day",x:"Grand Egyptian Museum, Giza. Your own addition to the package.",p:"gem"},{t:"Today",x:"The rest of the group arrives in Cairo. The package includes airport meet-and-assist and a transfer to the hotel for the night."}],
  note:"Arrange the meeting point and time with your hosts. Allow 3.5–4 hours at the museum."},
@@ -304,8 +307,8 @@ const DAYS = [
 {id:"2026-10-28",dow:"Wed",d:28,title:"Disembark · fly to Cairo",sum:"Last morning in Aswan, then back north.",grp:"Nile cruise",
  items:[{t:"Morning",x:"Disembark after breakfast. Optional tour to Abu Simbel by land.",p:"abusimbel"},{t:"Afternoon",x:"Transfer to Aswan airport, fly to Cairo, transfer to hotel for the night."}],
  note:"If you do Abu Simbel, confirm the start time against your flight."},
-{id:"2026-10-29",dow:"Thu",d:29,title:"Departure day",sum:"Fly home. Citadel and bazaar only if your flight allows.",grp:"Cairo",
- items:[{t:"Morning",x:"Breakfast, then your departure. Check your flight time first and allow plenty of time for the airport."},{t:"If time allows",x:"Salah el-Din Citadel and the Mosque of Muhammad Ali, from the package’s Cairo day.",p:"citadel"},{t:"",x:"Khan el-Khalili bazaar.",p:"khan"}],
+{id:"2026-10-29",dow:"Thu",d:29,title:"Departure day",sum:"Fly home with easyJet from Sphinx airport. Citadel and bazaar only if your flight allows.",grp:"Cairo",
+ items:[{t:"Morning",x:"Breakfast, then your departure. Check your easyJet flight time first and allow plenty of time for the airport. easyJet flies from Sphinx (SPX), not Cairo International."},{t:"If time allows",x:"Salah el-Din Citadel and the Mosque of Muhammad Ali, from the package’s Cairo day.",p:"citadel"},{t:"",x:"Khan el-Khalili bazaar.",p:"khan"}],
  note:"The package’s airport transfer was planned for 30 Oct, so confirm with your hosts or the tour company that yours is moved to the 29th. The museum part of the package’s Cairo day is covered by your visit on 22 Oct."}
 ];
 
@@ -375,9 +378,9 @@ function viewHome(){
   const today = dayFor(todayStr());
   const first = store("introSeen") !== "1";
   if (first) store("introSeen", "1");
-  let h = !first ? "" : '<div class="hero"><h1>Egypt · 22–29 October 2026</h1><p>Cairo, a Nile cruise from Luxor to Aswan, and back to Cairo. Everything here works without a signal; only the ‘learn more’ links need the internet.</p></div>';
+  let h = !first ? "" : '<div class="hero"><h1>Egypt · 21–29 October 2026</h1><p>Fly to Cairo, a Nile cruise from Luxor to Aswan, and back to Cairo. Everything here works without a signal; only the ‘learn more’ links need the internet.</p></div>';
   if (first && today) h += '<div class="today"><b>Today:</b> Day '+dayNum(today)+' — <a href="#/day/'+today.id+'">'+today.title+'</a></div>';
-  else if (first && todayStr() < "2026-10-22") h += '<div class="today">The trip starts on <b>Thursday 22 October</b> at the Grand Egyptian Museum. <a href="#/place/gem">Open the museum guide</a></div>';
+  else if (first && todayStr() < "2026-10-21") h += '<div class="today">The trip starts on <b>Wednesday 21 October</b> with the 07:25 easyJet flight from Luton to Sphinx airport. The Grand Egyptian Museum is on <b>Thursday 22 October</b>. <a href="#/place/gem">Open the museum guide</a></div>';
   let last = "";
   DAYS.forEach(d => {
     if (d.grp !== last){ h += '<div class="grp">'+(d.grp === "Nile cruise" ? "Nile cruise · 4 nights" : d.grp)+'</div>'; last = d.grp; }
@@ -486,7 +489,7 @@ function viewAbout(){
 function route(){
   const h = location.hash || "#/";
   const parts = h.replace(/^#\/?/, "").split("/");
-  let html, tab = "trip", title = "Egypt Trip Guide", sub = "22–29 October 2026 · works offline", back = false, after = null;
+  let html, tab = "trip", title = "Egypt Trip Guide", sub = "21–29 October 2026 · works offline", back = false, after = null;
   switch (parts[0]){
     case "day": { html = viewDay(parts[1]); const d = dayFor(parts[1]); if (d){ title = "Day "+dayNum(d)+" · "+d.dow+" "+d.d+" Oct"; sub = d.title; } back = true; break; }
     case "place": { html = viewPlace(parts[1]); const p = PLACES[parts[1]]; if (p){ title = p.name; sub = p.short; } tab = "places"; back = true;
