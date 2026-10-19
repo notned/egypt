@@ -3,8 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#b5532a">
+<meta name="theme-color" content="#a8481f">
 <meta name="robots" content="noindex,nofollow">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Egypt Guide">
 <title>Egypt Trip Guide · Oct 2026</title>
 <style>
 :root{
@@ -367,9 +373,11 @@ function dayNum(d){ return DAYS.indexOf(d) + 1; }
 /* ============ VIEWS ============ */
 function viewHome(){
   const today = dayFor(todayStr());
-  let h = '<div class="hero"><h1>Egypt · 22–29 October 2026</h1><p>Cairo, a Nile cruise from Luxor to Aswan, and back to Cairo. Everything here works without a signal; only the ‘learn more’ links need the internet.</p></div>';
-  if (today) h += '<div class="today"><b>Today:</b> Day '+dayNum(today)+' — <a href="#/day/'+today.id+'">'+today.title+'</a></div>';
-  else if (todayStr() < "2026-10-22") h += '<div class="today">The trip starts on <b>Thursday 22 October</b> at the Grand Egyptian Museum. <a href="#/place/gem">Open the museum guide</a></div>';
+  const first = store("introSeen") !== "1";
+  if (first) store("introSeen", "1");
+  let h = !first ? "" : '<div class="hero"><h1>Egypt · 22–29 October 2026</h1><p>Cairo, a Nile cruise from Luxor to Aswan, and back to Cairo. Everything here works without a signal; only the ‘learn more’ links need the internet.</p></div>';
+  if (first && today) h += '<div class="today"><b>Today:</b> Day '+dayNum(today)+' — <a href="#/day/'+today.id+'">'+today.title+'</a></div>';
+  else if (first && todayStr() < "2026-10-22") h += '<div class="today">The trip starts on <b>Thursday 22 October</b> at the Grand Egyptian Museum. <a href="#/place/gem">Open the museum guide</a></div>';
   let last = "";
   DAYS.forEach(d => {
     if (d.grp !== last){ h += '<div class="grp">'+(d.grp === "Nile cruise" ? "Nile cruise · 4 nights" : d.grp)+'</div>'; last = d.grp; }
@@ -513,6 +521,9 @@ function applyTheme(t){ document.documentElement.setAttribute("data-theme", t); 
   setFs();
   document.getElementById("fs").onclick = () => { si = (si + 1) % sizes.length; store("fs", String(si)); setFs(); };
 })();
+if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+  window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });
+}
 route();
 </script>
 </body>
