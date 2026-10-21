@@ -1,5 +1,7 @@
-/* Egypt Trip Guide: caches everything on first visit so it opens with no signal. */
-const CACHE = "egypt-guide-v1";
+/* Egypt Trip Guide: caches everything on first visit so it opens with no signal.
+   Opens instantly from the cache, then refreshes it in the background when there is a signal,
+   so updates appear the next time the app is opened. */
+const CACHE = "egypt-guide-v2";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", e => {
@@ -19,13 +21,14 @@ self.addEventListener("fetch", e => {
   if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;  // external links go to the network
   e.respondWith(
     caches.match(req, { ignoreSearch: true }).then(hit => {
-      if (hit) return hit;
-      return fetch(req)
+      const refresh = fetch(req)
         .then(res => {
           if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(req, copy)); }
           return res;
         })
-        .catch(() => (req.mode === "navigate" ? caches.match("index.html") : Response.error()));
+        .catch(() => (hit || (req.mode === "navigate" ? caches.match("index.html") : Response.error())));
+      if (hit) { refresh.catch(() => {}); return hit; }
+      return refresh;
     })
   );
 });

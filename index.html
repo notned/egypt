@@ -37,10 +37,19 @@ header.top .t b{display:block;font-family:Georgia,serif;font-size:1.15rem;font-w
 header.top .t span{font-size:.82rem;opacity:1}
 header.top button{background:rgba(255,255,255,.16);color:var(--hdr-fg);border:0;border-radius:10px;min-width:44px;min-height:44px;font-size:.95rem;font-weight:600}
 header.top .back{display:none}
+.ph{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:none;border:0;border-top:1px solid var(--border);padding:12px 14px;cursor:pointer}
+.ph:first-child{border-top:0}
+.ph .en{font-size:.82rem;color:var(--muted);font-weight:600}
+.ph .ar{display:block;font-size:1.5rem;line-height:1.5;direction:rtl;text-align:right;margin:2px 0;font-family:"Noto Naskh Arabic","Geeza Pro","Segoe UI",Tahoma,system-ui,sans-serif}
+.ph .tr{font-weight:700;font-size:1.02rem}
+.ph .nt{display:block;font-size:.84rem;color:var(--muted);margin-top:2px}
+.ph.big .ar{font-size:2.6rem;line-height:1.6;text-align:center;padding:10px 0}
+.ph.big{background:var(--tipbg)}
+.ph.big .tr{display:block;text-align:center}
 main{max-width:720px;margin:0 auto;padding:12px}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:var(--surface);border-top:1px solid var(--border);
   padding-bottom:env(safe-area-inset-bottom)}
-nav.tabs a{flex:1;text-align:center;padding:12px 4px;min-height:56px;text-decoration:none;color:var(--muted);font-size:.8rem;font-weight:600;
+nav.tabs a{flex:1;min-width:0;text-align:center;padding:12px 2px;min-height:56px;text-decoration:none;color:var(--muted);font-size:.74rem;font-weight:600;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-top:3px solid transparent}
 nav.tabs a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 nav.tabs a.on{color:var(--accent);border-top-color:var(--accent)}
@@ -141,6 +150,7 @@ footer.f{text-align:center;font-size:.75rem;color:var(--muted);padding:6px 12px 
   <a href="#/places" data-t="places"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Places</a>
   <a href="#/people" data-t="people"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 5.5a3 3 0 0 1 0 5.5M18 14.5c2 .7 3 2.6 3 5.5"/></svg>People</a>
   <a href="#/timeline" data-t="timeline"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><circle cx="12" cy="7" r="2"/><circle cx="12" cy="17" r="2"/><path d="M14 7h6M4 17h6"/></svg>Timeline</a>
+  <a href="#/phrases" data-t="phrases"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>Phrases</a>
   <a href="#/search" data-t="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>Search</a>
 </nav>
 
@@ -460,6 +470,77 @@ function viewTimeline(){
   return h;
 }
 
+const PHRASES = [
+ {g:"Greetings and manners", items:[
+  ["Hello (peace be upon you)","السلام عليكم","as-salāmu ʿalaykum","Reply: wa ʿalaykum as-salām"],
+  ["Hello / welcome (casual)","أهلاً","ahlan","Reply: ahlan bīk"],
+  ["Good morning","صباح الخير","sabāḥ el-khēr","Reply: sabāḥ en-nūr"],
+  ["Good evening","مساء الخير","masā’ el-khēr","Reply: masā’ en-nūr"],
+  ["How are you?","إزيك؟","ezzayyak? (to a man) · ezzayyik? (to a woman)","Reply: kwayyis, el-ḥamdu lillāh (fine, thank God)"],
+  ["Please / excuse me","لو سمحت","law samaḥt (to a woman: law samaḥti)",""],
+  ["Thank you","شكراً","shukran",""],
+  ["Thank you very much","شكراً قوي","shukran awi",""],
+  ["You’re welcome","عفواً","ʿafwan",""],
+  ["Yes","أيوه","aywa",""],
+  ["No","لأ","la’",""],
+  ["Sorry","آسف","āsef (man) · āsfa (woman)",""],
+  ["Excuse me (getting past)","عن إذنك","ʿan eznak",""],
+  ["Goodbye","مع السلامة","maʿa s-salāma","Reply: Allāh yesallemak"]
+ ]},
+ {g:"Food and drink", items:[
+  ["2 beers, please","اتنين بيرة لو سمحت","itnēn bīra, law samaḥt","Beer is not sold everywhere. Hotels and licensed restaurants are the usual places."],
+  ["Water, please","مَيّه لو سمحت","mayya, law samaḥt",""],
+  ["Bottled water","ميّه معدنية","mayya maʿdaniyya",""],
+  ["Tea","شاي","shāy",""],
+  ["Tea with mint","شاي بالنعناع","shāy bi-n-naʿnāʿ",""],
+  ["Coffee","قهوة","ʾahwa",""],
+  ["Without sugar","من غير سكر","min ghēr sukkar",""],
+  ["Delicious","لذيذ","lazīz",""],
+  ["The bill, please","الحساب لو سمحت","el-ḥesāb, law samaḥt",""]
+ ]},
+ {g:"Shopping and bargaining", items:[
+  ["How much is it?","بكام ده؟","bikām da?",""],
+  ["Too expensive","غالي قوي","ghāli awi",""],
+  ["I’m just looking","باتفرج بس","batfarrag bas",""],
+  ["No, thank you","لأ شكراً","la’ shukran","A polite, firm answer to sellers."],
+  ["OK / fine","ماشي","māshi",""]
+ ]},
+ {g:"Getting around and help", items:[
+  ["Where is the bathroom?","فين الحمام؟","fēn el-ḥammām?",""],
+  ["Do you speak English?","بتتكلم إنجليزي؟","bititkallem engelīzi? (to a woman: bititkallemi)",""],
+  ["I don’t understand","مش فاهم","mish fāhem (man) · mish fahma (woman)",""],
+  ["Slowly, please","شوية شوية","shwayya shwayya",""],
+  ["Stop here, please","وقف هنا لو سمحت","waʾʾef hena, law samaḥt","For taxis."],
+  ["Help!","النجدة","en-nagda",""]
+ ]},
+ {g:"Handy words", items:[
+  ["God willing","إن شاء الله","inshāʾallāh","Used all the time for anything in the future."],
+  ["Thanks be to God","الحمد لله","el-ḥamdu lillāh",""],
+  ["No problem","مفيش مشكلة","mafīsh mushkila",""],
+  ["Good","كويس","kwayyis",""],
+  ["Friend (friendly address)","حبيبي","ḥabībi",""],
+  ["Let’s go! / come on","يلا","yalla",""]
+ ]},
+ {g:"Numbers", items:[
+  ["1","١","wāḥed",""],["2","٢","itnēn",""],["3","٣","talāta",""],["4","٤","arbaʿa",""],["5","٥","khamsa",""],
+  ["6","٦","setta",""],["7","٧","sabʿa",""],["8","٨","tamanya",""],["9","٩","tisʿa",""],["10","١٠","ʿashara",""]
+ ]}
+];
+function viewPhrases(){
+  let h = '<div class="card pad"><p><b>Egyptian Arabic.</b> These are the everyday colloquial forms, not formal Arabic. Tap a phrase to show it in large Arabic script to someone.</p>'+
+    '<p>Spelling is an approximate English rendering: ʿ is a throaty sound, ʾ a catch in the throat, ḥ a breathy h and kh like “loch”. Where two forms are given, the first is to a man and the second to a woman. If you get a puzzled look, ask a local to say it back.</p></div>';
+  PHRASES.forEach(g => {
+    h += '<div class="grp">'+g.g+'</div><div class="card">';
+    g.items.forEach(i => {
+      h += '<button class="ph" type="button"><span class="en">'+i[0]+'</span><span class="ar" lang="ar" dir="rtl">'+i[1]+'</span><span class="tr">'+i[2]+'</span>'+(i[3]?'<span class="nt">'+i[3]+'</span>':'')+'</button>';
+    });
+    h += '</div>';
+  });
+  return h;
+}
+function wirePhrases(){
+  document.querySelectorAll(".ph").forEach(b => b.onclick = () => b.classList.toggle("big"));
+}
 function viewSearch(){
   return '<h1 class="pt" style="margin:4px 2px 10px">Search</h1><input class="search" id="q" type="search" placeholder="Try ‘Horus’, ‘Carter’, ‘1922’, ‘obelisk’…" autocomplete="off"><div id="results" class="card" style="margin-top:12px;display:none"></div>';
 }
@@ -500,6 +581,7 @@ function route(){
     case "places": html = viewPlaces(); tab = "places"; title = "Places"; break;
     case "people": html = viewPeople(); tab = "people"; title = "Who’s who"; break;
     case "timeline": html = viewTimeline(); tab = "timeline"; title = "Timeline"; break;
+    case "phrases": html = viewPhrases(); tab = "phrases"; title = "Phrases"; sub = "Egyptian Arabic · tap to enlarge"; after = wirePhrases; break;
     case "search": html = viewSearch(); tab = "search"; title = "Search"; after = wireSearch; break;
     case "about": html = viewAbout(); title = "Sources and credits"; back = true; break;
     default: html = viewHome();
